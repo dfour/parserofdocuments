@@ -22,6 +22,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 /*
+ * 
  * The parsomatic 1001
  * Parses a file and searches for a term set in the arguments.
  * To be run from command line.
@@ -34,11 +35,11 @@ import javax.swing.event.ListSelectionListener;
  * v0.6 tidied up code a bit
  * v0.7 added ability to select multiple files in GUI version
  * v0.8 added scroll bars to GUI output for large outputs
- * v0.9 fixed bug that exponetially doubled data
+ * v0.9 fixed bug that exponetially replicated data
  * v1.0 added full GUI with menu system, added ability to view another file after finshing with one.
  * v1.1 added ability to save search term for use on ultiple files.
- * v1.2 add ability to open file or folder of ducment match selected in list.
- * TODO add function to open file with match in when item in gui ist is clicked
+ * v1.2 add ability to open file or folder of document match selected in list.
+ * v1.2.1 fixed bug where close file wouldn't close file.
  */
 public class Parser implements ListSelectionListener,ActionListener  {
 	
@@ -102,7 +103,7 @@ public class Parser implements ListSelectionListener,ActionListener  {
 		searchTermForget.setMnemonic(KeyEvent.VK_F);
 		searchTermForget.addActionListener(this);
 		
-				//DATA Menu
+			//DATA Menu
 		JMenu dataMenu = new JMenu("Data");
 		dataMenu.setMnemonic(KeyEvent.VK_D);
 		
@@ -265,7 +266,7 @@ public class Parser implements ListSelectionListener,ActionListener  {
 	
 	//clears screen ready for another file
 	private void clearScreen(){
-		resultFile = "";
+		frame.getContentPane().removeAll();
 		frame.revalidate();
 		frame.repaint();
 	}
@@ -311,9 +312,9 @@ public class Parser implements ListSelectionListener,ActionListener  {
 					System.exit(0); 
 					break;
 				case "Search Files": 
-					frame.getContentPane().removeAll();
-					searchNewFiles();
+					resultFile = "";
 					clearScreen();
+					searchNewFiles();
 					break;
 				case "Close File": 
 					clearScreen();
