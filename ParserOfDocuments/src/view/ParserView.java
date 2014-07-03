@@ -1,5 +1,6 @@
-package parser;
+package view;
 
+import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
@@ -13,6 +14,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.event.ListSelectionListener;
 
+import model.ParserModel;
+
 public class ParserView extends JFrame{
 	
 	private static final long serialVersionUID = 1L;
@@ -22,13 +25,14 @@ public class ParserView extends JFrame{
 		
 	//GUI Items
 	private JMenuItem searchTerm;
+	private JMenuItem searchTermRegex;
 	private JMenuItem closeFilefileMenuItem;
 	private JMenuItem exitAppMenuItem;
 	private JMenuItem searchNewMenuItem;
 	private JMenuItem searchTermForget;
 	private JMenuItem openFile;
 	private JMenuItem openFolder;
-	private JList list;
+	private JList<?> list;
 	
 	public ParserView(ParserModel mod){
 		super("Results for "+mod.searchTerm+" in "+mod.fileName+"        No:0 of 0");
@@ -59,8 +63,11 @@ public class ParserView extends JFrame{
 
 		searchTerm = new JMenuItem("Set Search Term");
 		searchTerm.setMnemonic(KeyEvent.VK_S);
+		searchTermRegex = new JMenuItem("Set Regex Term");
+		searchTermRegex.setMnemonic(KeyEvent.VK_R);
 		searchTermForget = new JMenuItem("Forget Search Term");
 		searchTermForget.setMnemonic(KeyEvent.VK_F);
+		
 		
 
 			//DATA Menu
@@ -83,6 +90,7 @@ public class ParserView extends JFrame{
 		dataMenu.add(openFolder);
 
 		searchMenu.add(searchTerm);
+		searchMenu.add(searchTermRegex);
 		searchMenu.add(searchTermForget);
 
 		fileMenu.add(searchNewMenuItem);
@@ -103,23 +111,23 @@ public class ParserView extends JFrame{
 	
 	// gets the term to search for
 	public String getSearchTerm(){
-		if(!model.isSearchTermSet){
+		if(!model.isSearchTermSet && !model.isSearchTermRegex){
 			model.searchTerm = (String)JOptionPane.showInputDialog(null,"Enter Search Term:","Search.",JOptionPane.PLAIN_MESSAGE,null,null,"");
 		}
 		System.out.println(model.searchTerm);
 		return model.searchTerm;
 	}
 	
-	
-	/*
-	 * update listbox data
+	/* update listbox data
 	 */
 	public void displayResults(String results){
 		String[] data = results.split(System.lineSeparator());
 		System.out.println(data[1]);
 		this.getContentPane().removeAll();
-		list = new JList(data);
+		list = new JList<String>(data);
+		list.setFont(new Font("Monospaced",Font.PLAIN,12));
 		JScrollPane jsp = new JScrollPane(list, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		this.setTitle("Found "+model.countMatch+" out of "+model.count+" from "+model.fileName);
 		this.add(jsp);
 		this.revalidate();
 		this.repaint();
@@ -141,6 +149,11 @@ public class ParserView extends JFrame{
 	public void addSearchTermListener(ActionListener al){
 		searchTerm.addActionListener(al);
 	}
+	
+	public void addSearchTermRegex(ActionListener al){
+		searchTermRegex.addActionListener(al);
+	}
+	
 	public void addCloseFilefileMenuItem(ActionListener al){
 		closeFilefileMenuItem.addActionListener(al);
 	}
@@ -156,7 +169,7 @@ public class ParserView extends JFrame{
 	public void addOpenFile(ActionListener al){
 		searchTerm.addActionListener(al);
 	}
-	public void addopenFolder(ActionListener al){
+	public void addOpenFolder(ActionListener al){
 		openFolder.addActionListener(al);
 	}
 	
