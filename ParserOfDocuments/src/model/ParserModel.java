@@ -122,4 +122,18 @@ public class ParserModel {
 			e.printStackTrace();
 		}
 	}
+	
+	// loops through files and returns the string of data
+	public String parseSingleFile(String file, String st){
+		String data = "";
+		try {
+			data = parseFile(file,st);
+			System.out.println(data);
+		} catch(FileNotFoundException fnf){
+			System.out.println("Unable to find file. Please check you have entered the correct location.");
+		}catch (IOException e) {
+			e.printStackTrace();
+		}
+		return data;
+	}
 }
