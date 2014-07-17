@@ -10,16 +10,17 @@ This program has now been upgraded to be able to search through whole folders of
 display a list of each match found.
 
 Basic list of features:
-Search document for lines that match a set search term.
-Search through multiple files within on folder.
-Match strings based on either literal or regex matches.
-Open files via the GUI.
-Open folders via the GUI.
-Run in command window with no GUI.
+=====================
+* Search document for lines that match a set search term.
+* Search through multiple files within on folder.
+* Match strings based on either literal or regex matches.
+* Open files via the GUI.
+* Open folders via the GUI.
+* Run in command window with no GUI.
 
 
-commandline examples:
-
+Command line examples:
+====================
 Open GUI from commandline
     java -jar parser.jar
     
